@@ -1,52 +1,53 @@
-# HCT SmartNest — Section 4.2 UI/UX Prototype
+# HCT SmartNest — Streamlit UI/UX Prototype
 
-A static, interactive **concept prototype** of 11 nursery-management screens, based on the HCT SmartNest capstone requirements. Includes the supplied project logo and consistent blue/pink/gold branding.
+A simple Python prototype for Capstone Section 4.2. It shows the 11 requested screens and uses the project logo. The interface is deliberately practical and uses mostly native Streamlit components so students can understand and extend the code.
 
-## Preview locally
+## Technologies
+- Python: application logic
+- Streamlit: interface components and navigation
+- A small amount of CSS in `app.py`: colors and spacing (no JavaScript needed)
+- GitHub: source code hosting
+- Streamlit Community Cloud: deployment
 
-Open `index.html` in a browser, or run `python3 -m http.server 8000` in this folder and visit `http://localhost:8000`.
+## Files
+- `app.py`: complete Python source for all 11 screens
+- `requirements.txt`: Python dependency
+- `assets/smartnest-logo.png`: project logo
 
-## Publish with GitHub Pages
+## Run locally
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
 
-1. Create a new **public** GitHub repository (e.g. `smartnest-prototype`).
-2. Upload the **contents** of this folder to the repository root: `index.html`, `styles.css`, `script.js`, `assets/`, and `README.md`.
-3. In GitHub, go to **Settings → Pages**.
-4. Under **Build and deployment**, select **Deploy from a branch**, then branch **main** and folder **/(root)**. Save.
-5. Wait for deployment; GitHub will show your Pages URL, normally `https://YOUR-USERNAME.github.io/smartnest-prototype/`.
+## Deploy (new GitHub branch)
+1. In the existing `HCT-SmartNest-Prototype` repository, create a branch named `streamlit-version` from `main`.
+2. On that branch, upload `app.py`, `requirements.txt`, `README.md`, and the `assets` folder from this ZIP. Existing HTML/CSS/JS files can remain in the branch but are not used by Streamlit.
+3. Open https://share.streamlit.io and select **Create app** / **Deploy an app**.
+4. Choose your repository, branch `streamlit-version`, and entrypoint `app.py`.
+5. Deploy. GitHub Pages will continue serving the HTML version from `main`.
 
-No packages, build process, server, or API keys are needed.
+## Screen list and functional requirements
+1. Login — FR01
+2. Staff Dashboard — FR05, FR07
+3. Attendance — FR05
+4. Child Profile — FR03, FR04
+5. Parent View — FR06, FR07
+6. Consent — FR15
+7. Messages — FR13
+8. Search — FR17
+9. Reports — FR11
+10. Notifications — FR09
+11. Pre-enrollment — FR14
 
-## Screens and requirements
+Each screen also supports usability discussion under NFR03.
 
-| Screen | Actor | FR |
-|---|---|---|
-| Login | All authorized users (simulated) | FR01 |
-| Staff Dashboard | Nursery Staff | FR05, FR07 |
-| Attendance | Nursery Staff | FR05 |
-| Child Profile | Staff / Administrator | FR03, FR04 |
-| Parent View | Parent / Guardian | FR06, FR07 |
-| Consent | Authorized Staff / Administrator | FR15 |
-| Messages | Parent / Staff | FR13 |
-| Search | Staff / Administrator | FR17 |
-| Reports | Staff / Administrator | FR11 |
-| Notifications | Parent / Staff | FR09 |
-| Pre-enrollment information | Prospective Parent / Guest | FR14 |
+## Limitations
+- All names and records are fictional.
+- Login and role switching are simulated; there is no real authentication or authorization.
+- Demo changes use Streamlit session state and do not persist in a database.
+- No real children's records, credentials, signatures, or medical information should be entered.
+- This is **not** suitable for actual nursery operations. Real deployment requires secure authentication, server-side permissions, database storage, audit logging, and privacy/security testing.
 
-Every page includes a report-ready caption referencing NFR03 usability. The pre-enrollment page is **information only**, not an online application.
-
-## Important security and scope notes
-
-- **Demonstration only.** The role selector is not authentication, authorization, or secure login.
-- All child names, attendance figures, messages, and consent entries are **fictional**.
-- Data changes persist in the local browser's `localStorage` only. No server, real accounts, email, or database exists.
-- Never upload real child records, health data, contact details, or passwords to this prototype.
-- Do not present this prototype as a deployed production nursery system.
-- Production would require a secure backend, authentication, permissions, encryption, audit logging, privacy safeguards, and validated workflows.
-
-## Design decisions for next year's implementation
-
-This version deliberately uses **simple tables, forms, cards, and navigation**, rather than complex charts or animations. The interface is a *visual and interaction prototype* for Section 4.2, not evidence that the underlying features have been implemented.
-
-Suggested implementation order: authentication and user roles, child records, check-in/out with timestamps, parent-linked views, then consent, messages, reporting, and notifications. Backend validation and privacy controls must be designed before any real nursery data is used.
-
-To capture report figures, open each screen in the browser, take a screenshot, and caption it with the screen name, actor, FR number and NFR03 usability note already displayed.
+## Academic integrity
+Explain that this is an AI-assisted prototype if required by your course policy. Review the code, customize it, test each screen, and document your team's contributions.
