@@ -11,13 +11,65 @@ SCREENS = ['Login', 'Staff Dashboard', 'Attendance', 'Child Profile', 'Parent Vi
 FR = {'Login':'FR01', 'Staff Dashboard':'FR05, FR07', 'Attendance':'FR05', 'Child Profile':'FR03, FR04', 'Parent View':'FR06, FR07', 'Consent':'FR15', 'Messages':'FR13', 'Search':'FR17', 'Reports':'FR11', 'Notifications':'FR09', 'Pre-enrollment':'FR14'}
 ROLES = {'Staff': ['Login','Staff Dashboard','Attendance','Child Profile','Messages','Search','Reports','Notifications','Pre-enrollment'], 'Parent':['Login','Parent View','Messages','Notifications','Pre-enrollment'], 'Administrator': SCREENS, 'Prospective parent':['Login','Pre-enrollment']}
 
-st.markdown('''<style>
-.stApp {background:#f7f8fb;color:#243047} [data-testid="stSidebar"] {background:#fff;border-right:1px solid #e2e7ef}
-h1,h2,h3 {color:#202d91;letter-spacing:-.02em} div.stButton>button[kind="primary"] {background:#202d91;border-color:#202d91}
-[data-testid="stMetric"] {background:#fff;border:1px solid #e4e8ef;border-radius:8px;padding:16px}
-[data-testid="stForm"] {background:white;border:1px solid #e4e8ef;border-radius:8px;padding:18px}
-.small-note {color:#687487;font-size:.9rem} .prototype-note {padding:10px 14px;background:#fff4df;border-left:4px solid #f0bf50;border-radius:4px;margin:10px 0 18px}
-</style>''', unsafe_allow_html=True)
+st.markdown("""
+<style>
+/* HCT SmartNest brand palette */
+:root { --nest-blue:#202D91; --nest-pink:#C65C7B; --nest-gold:#F0BF50; }
+.stApp, [data-testid="stAppViewContainer"] {background:#F7F8FF; color:#202D4A;}
+[data-testid="stMain"] h1, [data-testid="stMain"] h2,
+[data-testid="stMain"] h3 {color:#202D4A; letter-spacing:-.02em;}
+/* Left sidebar */
+[data-testid="stSidebar"], [data-testid="stSidebar"] > div:first-child {
+  background:#202D91 !important;
+}
+[data-testid="stSidebar"] {border-right:1px solid #192477;}
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
+[data-testid="stSidebar"] [data-testid="stCaptionContainer"],
+[data-testid="stSidebar"] label, [data-testid="stSidebar"] label p,
+[data-testid="stSidebar"] [data-testid="stWidgetLabel"] p {
+  color:#FFFFFF !important;
+}
+[data-testid="stSidebar"] [data-testid="stCaptionContainer"] {opacity:.85;}
+[data-testid="stSidebar"] [data-testid="stRadio"] label {
+  border-radius:8px; padding:5px 9px; margin:2px 0;
+}
+[data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) {
+  background:#3947A7;
+}
+[data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) p {
+  color:#FFFFFF !important; font-weight:650;
+}
+[data-testid="stSidebar"] [data-testid="stRadio"] input {accent-color:#C65C7B;}
+[data-testid="stSidebar"] hr {border-color:#7B85C1;}
+/* Keep the demo-role selector readable */
+[data-testid="stSidebar"] [data-baseweb="select"] > div {
+  background:#FFFFFF !important; border:1px solid #D8DDED;
+}
+[data-testid="stSidebar"] [data-baseweb="select"] * {color:#202D4A !important;}
+/* Forms, tables, and inputs */
+[data-testid="stMetric"], [data-testid="stForm"] {
+  background:#FFFFFF; border:1px solid #E1E5F0;
+  border-radius:10px; padding:16px;
+}
+[data-testid="stDataFrame"] {border-radius:8px; overflow:hidden;}
+[data-testid="stMain"] input, [data-testid="stMain"] textarea {
+  background:#FFFFFF; color:#202D4A;
+}
+[data-testid="stMain"] div.stButton > button[kind="primary"],
+[data-testid="stMain"] button[data-testid="stFormSubmitButton-primary"] {
+  background:#202D91; color:white; border-color:#202D91; border-radius:7px;
+}
+[data-testid="stMain"] div.stButton > button[kind="primary"]:hover {
+  background:#3443A3;
+}
+.prototype-note {
+  padding:11px 15px; background:#FFF8E7; color:#544A31;
+  border-left:4px solid #F0BF50; border-radius:5px;
+  margin:12px 0 22px;
+}
+.small-note {color:#66738A;font-size:.9rem;}
+</style>
+""", unsafe_allow_html=True)
 
 if 'role' not in st.session_state: st.session_state.role = 'Staff'
 if 'page' not in st.session_state: st.session_state.page = 'Login'
@@ -106,80 +158,3 @@ elif page == 'Child Profile':
         room = st.selectbox('Class', ['Blue Room','Yellow Room'], index=['Blue Room','Yellow Room'].index(child['class']))
         contact = st.text_input('Emergency contact (fictional)', child['contact'])
         allergy = st.text_input('Allergy note (fictional)', child['allergy'])
-        save = st.form_submit_button('Save demo changes', type='primary')
-    if save:
-        child.update(name=name, **{'class':room,'contact':contact,'allergy':allergy})
-        st.success('Sample profile updated for this session.')
-
-elif page == 'Parent View':
-    st.subheader('My child')
-    st.caption('Demo parent is linked only to fictional child SN-001. This is a visual simulation, not real access control.')
-    child = children[0]
-    a,b = st.columns(2)
-    a.metric('Child', child['name']); b.metric('Attendance today', child['status'])
-    st.write(f"**Class:** {child['class']}  |  **Check-in:** {child['in'] or '—'}  |  **Check-out:** {child['out'] or '—'}")
-    st.subheader('Daily updates')
-    for update in st.session_state.updates: st.info(update)
-
-elif page == 'Consent':
-    st.write('Authorized staff record whether parental consent was received. The prototype does not collect real signatures.')
-    child = pick_child()
-    with st.form('consent'):
-        choice = st.selectbox('Consent status', ['Pending','Received','Declined'], index=['Pending','Received','Declined'].index(st.session_state.consents.get(child['id'],'Pending')))
-        note = st.text_area('Administrative note (do not enter real personal data)')
-        save = st.form_submit_button('Save consent status', type='primary')
-    if save:
-        st.session_state.consents[child['id']] = choice
-        st.success('Demo consent status saved.')
-    st.write('Recorded statuses:', st.session_state.consents or 'None yet')
-
-elif page == 'Messages':
-    st.write('Simple parent–staff messaging demonstration.')
-    st.dataframe(st.session_state.messages, hide_index=True, use_container_width=True)
-    with st.form('message'):
-        to = st.selectbox('Send to', ['Nursery staff','Parent','Administrator'])
-        message = st.text_area('Message', max_chars=300)
-        send = st.form_submit_button('Send demo message', type='primary')
-    if send:
-        if message.strip():
-            st.session_state.messages.append({'From':role,'To':to,'Message':message.strip()})
-            st.success('Demo message added.'); st.rerun()
-        else: st.warning('Write a message first.')
-
-elif page == 'Search':
-    query = st.text_input('Search by child name or ID')
-    result = [r for r in rows() if query.lower() in (r['Child']+' '+r['Child ID']).lower()]
-    st.dataframe(result, hide_index=True, use_container_width=True)
-    st.caption('Search results show basic fields only. Sensitive records need permission checks in the real system.')
-
-elif page == 'Reports':
-    st.subheader('Attendance summary')
-    st.dataframe(rows(), hide_index=True, use_container_width=True)
-    buffer = StringIO()
-    writer = csv.DictWriter(buffer, fieldnames=list(rows()[0]))
-    writer.writeheader(); writer.writerows(rows())
-    st.download_button('Download sample attendance CSV', data=buffer.getvalue(), file_name='smartnest_sample_attendance.csv', mime='text/csv')
-    st.caption('This is a demo export, not an official SPEA report.')
-
-elif page == 'Notifications':
-    for notice in st.session_state.notices: st.info(notice)
-    if role in ('Staff','Administrator'):
-        with st.form('notice'):
-            notice = st.text_input('New sample announcement')
-            submit = st.form_submit_button('Add notification', type='primary')
-        if submit and notice.strip():
-            st.session_state.notices.insert(0, notice.strip()); st.rerun()
-
-elif page == 'Pre-enrollment':
-    st.write('Information only — full online applications are outside the current SmartNest scope.')
-    for i,(heading,detail) in enumerate([
-        ('Contact the nursery','Ask about availability, age groups, and opening hours.'),
-        ('Review requirements','Request the nursery’s current documents and eligibility checklist.'),
-        ('Arrange a visit','Speak with nursery administration about the enrollment process.'),
-        ('Complete registration with the nursery','Submit documents through the nursery’s approved process, not this prototype.')],1):
-        st.markdown(f'**Step {i}: {heading}**')
-        st.write(detail)
-    st.caption('No application form, payment, or document upload is included.')
-
-st.divider()
-st.caption('HCT SmartNest · Capstone Section 4.2 · UI/UX demonstration only · Fictional data')
