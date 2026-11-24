@@ -1,52 +1,57 @@
-# HCT SmartNest — Section 4.2 UI/UX Prototype
+# HCT SmartNest — Streamlit UI/UX Prototype
 
-A static, interactive **concept prototype** of 11 nursery-management screens, based on the HCT SmartNest capstone requirements. Includes the supplied project logo and consistent blue/pink/gold branding.
+A clean, educational prototype for **Capstone Section 4.2**. Built with **Python, Streamlit and pandas**. It is not a working nursery management system.
 
-## Preview locally
+## Screens
 
-Open `index.html` in a browser, or run `python3 -m http.server 8000` in this folder and visit `http://localhost:8000`.
-
-## Publish with GitHub Pages
-
-1. Create a new **public** GitHub repository (e.g. `smartnest-prototype`).
-2. Upload the **contents** of this folder to the repository root: `index.html`, `styles.css`, `script.js`, `assets/`, and `README.md`.
-3. In GitHub, go to **Settings → Pages**.
-4. Under **Build and deployment**, select **Deploy from a branch**, then branch **main** and folder **/(root)**. Save.
-5. Wait for deployment; GitHub will show your Pages URL, normally `https://YOUR-USERNAME.github.io/smartnest-prototype/`.
-
-No packages, build process, server, or API keys are needed.
-
-## Screens and requirements
-
-| Screen | Actor | FR |
+| Screen | Actor | Requirement |
 |---|---|---|
-| Login | All authorized users (simulated) | FR01 |
-| Staff Dashboard | Nursery Staff | FR05, FR07 |
-| Attendance | Nursery Staff | FR05 |
+| Login | Authorized users | FR01 |
+| Staff Dashboard | Nursery staff | FR05, FR07 |
+| Attendance (check-in/out) | Nursery staff | FR05 |
 | Child Profile | Staff / Administrator | FR03, FR04 |
 | Parent View | Parent / Guardian | FR06, FR07 |
-| Consent | Authorized Staff / Administrator | FR15 |
+| Consent | Authorized staff / Administrator | FR15 |
 | Messages | Parent / Staff | FR13 |
 | Search | Staff / Administrator | FR17 |
 | Reports | Staff / Administrator | FR11 |
 | Notifications | Parent / Staff | FR09 |
-| Pre-enrollment information | Prospective Parent / Guest | FR14 |
+| Pre-enrollment steps | Prospective parent | FR14 |
 
-Every page includes a report-ready caption referencing NFR03 usability. The pre-enrollment page is **information only**, not an online application.
+All screens support **NFR03 usability** through consistent navigation, clear labels, and straightforward forms.
 
-## Important security and scope notes
+## Run locally
 
-- **Demonstration only.** The role selector is not authentication, authorization, or secure login.
-- All child names, attendance figures, messages, and consent entries are **fictional**.
-- Data changes persist in the local browser's `localStorage` only. No server, real accounts, email, or database exists.
-- Never upload real child records, health data, contact details, or passwords to this prototype.
-- Do not present this prototype as a deployed production nursery system.
-- Production would require a secure backend, authentication, permissions, encryption, audit logging, privacy safeguards, and validated workflows.
+```bash
+python -m pip install -r requirements.txt
+streamlit run app.py
+```
 
-## Design decisions for next year's implementation
+## Deploy with Streamlit Community Cloud
 
-This version deliberately uses **simple tables, forms, cards, and navigation**, rather than complex charts or animations. The interface is a *visual and interaction prototype* for Section 4.2, not evidence that the underlying features have been implemented.
+1. Upload the **contents of this ZIP** to the root of your existing GitHub `streamlit-version` branch. Keep `.streamlit/config.toml` and `assets/smartnest-logo.png` in their folders.
+2. In Streamlit Community Cloud, select repository `ShaikhaAliOmran/HCT-SmartNest-Prototype`, branch `streamlit-version`, and entrypoint `app.py`.
+3. Deploy or reboot the existing Streamlit app after the new commit.
 
-Suggested implementation order: authentication and user roles, child records, check-in/out with timestamps, parent-linked views, then consent, messages, reporting, and notifications. Backend validation and privacy controls must be designed before any real nursery data is used.
+Your original GitHub Pages site on `main` is unaffected.
 
-To capture report figures, open each screen in the browser, take a screenshot, and caption it with the screen name, actor, FR number and NFR03 usability note already displayed.
+## How the code works
+
+- `app.py`: all UI screens, sample records, navigation and demonstration interactions.
+- `.streamlit/config.toml`: SmartNest color theme (royal blue sidebar, white text, light background).
+- `assets/smartnest-logo.png`: original team logo.
+- `requirements.txt`: required Python packages.
+
+`st.session_state` stores demonstration changes temporarily. Refreshing/restarting the server may reset the sample data. The **Demo user** selector is not real login. This app must not contain real children’s data, credentials, medical information, or contact details. A production system needs a backend, database, verified authentication, role-based authorization, audit logging and privacy safeguards.
+
+## Design limitations
+
+The pre-enrollment page is informational only (FR14), not an online application. The parent view shows one fictional child. SPEA reports and direct integrations are not implemented. Screens are conceptual prototypes, not completed features.
+
+## Suggested figure caption
+
+*Figure 4.2.X: [Screen name] — Actor: [user role]; Requirement: [FR]. The interface allows the user to [task]. Consistent navigation and clearly labeled controls support NFR03 usability.*
+
+
+## Clean branch deployment
+Upload the contents of this folder to the ROOT of your new GitHub branch. Do not upload the enclosing folder. Configure Streamlit Community Cloud with the repository, the new branch name, and main file `app.py`. This build has been syntax-checked; live Streamlit interactions still require browser testing.
