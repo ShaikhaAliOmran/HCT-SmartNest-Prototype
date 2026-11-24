@@ -106,10 +106,11 @@ def child_selector(key):
     return next(child for child in st.session_state.children if child["ID"] == selected)
 
 
+
 def go(page):
-    st.session_state.page = page
-    st.session_state[f"nav_{st.session_state.role}"] = page
+    st.session_state.pending_page = page
     st.rerun()
+
 
 
 def section_header(page):
@@ -133,6 +134,12 @@ def sidebar():
         options = ROLE_PAGES[role]
         if st.session_state.page not in options:
             st.session_state.page = options[0]
+         
+        pending = st.session_state.pop("pending_page", None)
+        if pending is not None and pending in options:
+            st.session_state.page = pending
+            st.session_state[f"nav_{role}"] = pending
+
         chosen = st.radio("Navigation", options, index=options.index(st.session_state.page), key=f"nav_{role}")
         if chosen != st.session_state.page:
             st.session_state.page = chosen
