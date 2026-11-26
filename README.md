@@ -1,52 +1,44 @@
-# HCT SmartNest — Section 4.2 UI/UX Prototype
+# HCT SmartNest — Iterations 1 and 2 UI/UX prototype
 
-A static, interactive **concept prototype** of 11 nursery-management screens, based on the HCT SmartNest capstone requirements. Includes the supplied project logo and consistent blue/pink/gold branding.
+Python Streamlit educational prototype, updated from the user's `streamlit-clean` branch `app.py`.
 
-## Preview locally
+## Run locally
 
-Open `index.html` in a browser, or run `python3 -m http.server 8000` in this folder and visit `http://localhost:8000`.
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
 
-## Publish with GitHub Pages
+## Deploy with Streamlit Community Cloud
 
-1. Create a new **public** GitHub repository (e.g. `smartnest-prototype`).
-2. Upload the **contents** of this folder to the repository root: `index.html`, `styles.css`, `script.js`, `assets/`, and `README.md`.
-3. In GitHub, go to **Settings → Pages**.
-4. Under **Build and deployment**, select **Deploy from a branch**, then branch **main** and folder **/(root)**. Save.
-5. Wait for deployment; GitHub will show your Pages URL, normally `https://YOUR-USERNAME.github.io/smartnest-prototype/`.
+Upload **the contents of this ZIP** to your GitHub repository branch, preserving `assets/smartnest-logo.png` and `.streamlit/config.toml`. Select that branch and `app.py` as the main file when deploying. Test in a new branch before replacing the existing deployment.
 
-No packages, build process, server, or API keys are needed.
+## Screens
 
-## Screens and requirements
+Original 11 screens retained: Login, Staff Dashboard, Attendance, Child Profile, Parent View, Consent, Messages, Search, Reports, Notifications, Pre-enrollment.
 
-| Screen | Actor | FR |
-|---|---|---|
-| Login | All authorized users (simulated) | FR01 |
-| Staff Dashboard | Nursery Staff | FR05, FR07 |
-| Attendance | Nursery Staff | FR05 |
-| Child Profile | Staff / Administrator | FR03, FR04 |
-| Parent View | Parent / Guardian | FR06, FR07 |
-| Consent | Authorized Staff / Administrator | FR15 |
-| Messages | Parent / Staff | FR13 |
-| Search | Staff / Administrator | FR17 |
-| Reports | Staff / Administrator | FR11 |
-| Notifications | Parent / Staff | FR09 |
-| Pre-enrollment information | Prospective Parent / Guest | FR14 |
+Five added screens: User Management, Child Registration, System Monitoring, Security Management, Authorized Pick-up.
 
-Every page includes a report-ready caption referencing NFR03 usability. The pre-enrollment page is **information only**, not an online application.
+- **Administrator**: all screens, including the five additions.
+- **Parent**: existing parent screens plus a read-only authorized pick-up view for the fictional linked child.
+- **Staff**: original staff screens.
+- **Prospective parent**: original demo login and pre-enrollment.
 
-## Important security and scope notes
+## Screenshot checklist for capstone Design section
 
-- **Demonstration only.** The role selector is not authentication, authorization, or secure login.
-- All child names, attendance figures, messages, and consent entries are **fictional**.
-- Data changes persist in the local browser's `localStorage` only. No server, real accounts, email, or database exists.
-- Never upload real child records, health data, contact details, or passwords to this prototype.
-- Do not present this prototype as a deployed production nursery system.
-- Production would require a secure backend, authentication, permissions, encryption, audit logging, privacy safeguards, and validated workflows.
+1. Login — blank demo form and Enter demo result.
+2. User Management — filled sample form and updated user directory.
+3. Child Registration — filled fictional form and updated child list, then Child Profile/Attendance.
+4. Attendance — select a child, check in/out, capture the updated attendance register.
+5. System Monitoring — show simulated metrics and filtered activity events.
+6. Security Management — proposed settings form and displayed saved configuration.
+7. Consent — select child, save status, show current status.
+8. Child Profile — edited form and saved result.
+9. Authorized Pick-up — Administrator form and list, plus Parent read-only view.
+10. Access Control — demonstrate role-specific sidebar visibility. This is **not** actual access control.
 
-## Design decisions for next year's implementation
+Use fictional names and masked contact values such as `050-XXX-1234` only.
 
-This version deliberately uses **simple tables, forms, cards, and navigation**, rather than complex charts or animations. The interface is a *visual and interaction prototype* for Section 4.2, not evidence that the underlying features have been implemented.
+## Critical scope limitation
 
-Suggested implementation order: authentication and user roles, child records, check-in/out with timestamps, parent-linked views, then consent, messages, reporting, and notifications. Backend validation and privacy controls must be designed before any real nursery data is used.
-
-To capture report figures, open each screen in the browser, take a screenshot, and caption it with the screen name, actor, FR number and NFR03 usability note already displayed.
+This is a **UI/UX concept prototype**, not a deployed nursery information system. All records are fictional. Data are kept only in Streamlit session state; they are not persistent. Login does not verify passwords; demo role switching is not secure authorization; the proposed MFA, timeout, and access-review settings do not enforce controls; system monitoring is simulated; and authorized pick-up lists do not verify identity. Do not use with real child, parent, or staff data.
